@@ -4,9 +4,9 @@ npm-debug.log
 .env
 
 # React build
-frontend/node_modules
-frontend/build
+hrms-frontend/node_modules
+hrms-frontend/build
 
 # Backend build
-backend/node_modules
-backend/dist
+hrms-backend/node_modules
+hrms-backend/dist

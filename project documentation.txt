@@ -1,0 +1,1379 @@
+Frontend 
+> React JS (with Vite/Webpack)
+> React Router & Axios for routing and API calls
+
+Backend
+
+> Node JS with Express framework
+> JWT for authentication
+> REST API architecture
+
+Database
+> Microsoft SQL Server (MS SQL)
+> ORM: Sequelize (for Node.js)
+✅ Core Pages to Include in HRMS (Full System)
+🟩 1. Authentication & Authorization
+Page Name	Purpose
+/signup	Admin or HR can create new employee/HR users (only authorized roles should be able to access)
+/login	All users (employee, HR, admin) login from here
+/forgot-password	Reset password via email/OTP
+/reset-password/:token	New password entry page (after email link)
+/unauthorized	Access denied screen for role violations
+
+🟦 2. Dashboard Pages (Role-Based)
+Page Name	Purpose
+/dashboard/admin	HR Admin/Owner overview — employee count, active HRs, attendance heatmap, reports
+/dashboard/hr	HR Executive/Manager dashboard — onboarding status, pending leaves, payrolls
+/dashboard/employee	Regular employee dashboard — profile, payslip summary, upcoming holidays
+
+🟧 3. User Management
+Page Name	Purpose
+/employees	View/search all employees (for HR/Admin)
+/employee/add	Add new employee
+/employee/:id/view	Full employee profile
+/employee/:id/edit	Edit profile (HR/Admin only)
+/employee/documents	Upload and verify documents
+
+🟨 4. Organization Setup
+Page Name	Purpose
+/organization/departments	Create and manage departments
+/organization/designations	Manage job titles
+/organization/managers	Assign reporting managers
+/organization/locations	Add office branches
+
+🟫 5. Attendance System
+Page Name	Purpose
+/attendance/logs	View and filter daily attendance (by HR/Manager)
+/attendance/my	View own attendance log (employee)
+/attendance/regularization	Apply for correction if punch missing
+/attendance/approval	Approve regularization requests (Manager/HR)
+
+🟩 6. Shift & Roster Management
+Page Name	Purpose
+/shifts/templates	Define shift timings
+/shifts/assign	Assign shift to employees
+/shifts/calendar	View and manage roster per month/week
+
+🟥 7. Leave Management
+Page Name	Purpose
+/leave/apply	Apply for leave (ESS)
+/leave/my	My leave history
+/leave/pending-approvals	Manager/HR approvals list
+/leave/policies	Leave types and entitlements
+
+🟦 8. Holiday Calendar
+Page Name	Purpose
+/holidays	Regional holiday calendar
+/holidays/add	Admin adds new holidays
+
+🟨 9. Payroll Management
+Page Name	Purpose
+/payroll/run	Run monthly payroll
+/payroll/payslips/:id	Employee payslip view
+/payroll/settings	Define salary components, tax rules
+/payroll/compliance	View/download PF, ESI, TDS files
+
+🟪 10. Reimbursements
+Page Name	Purpose
+/reimbursement/submit	Employee submits expense claims
+/reimbursement/approval	Approve or reject (HR)
+/reimbursement/history	Track past claims and statuses
+
+🟫 11. Loans & Advances
+Page Name	Purpose
+/loans/request	Employee requests a loan/advance
+/loans/approval	HR reviews and approves
+/loans/schedule	EMI deduction schedule view
+
+🟧 12. Recruitment
+Page Name	Purpose
+/jobs/post	Post new jobs (internal/external)
+/jobs/listings	View active listings
+/candidates/applications	Application tracker
+/interviews/schedule	HR schedules interviews
+/candidates/:id/status	Change status (hired/rejected/etc.)
+
+🟦 13. Onboarding
+Page Name	Purpose
+/onboarding/pending	View pending onboarding cases
+/onboarding/documents	Collect & verify joining docs
+/onboarding/tasks	Assign induction tasks
+/onboarding/letters	Generate offer/joining letters
+
+🟨 14. Training & Development
+Page Name	Purpose
+/training/programs	List of all training sessions
+/training/enroll	Assign employees to sessions
+/training/completion	Mark and evaluate completion
+/skills/matrix	Update employee skill maps
+
+🟪 15. Performance Management
+Page Name	Purpose
+/performance/kra-kpi	Define evaluation parameters
+/performance/self-eval	Employee fills self-appraisal
+/performance/review	Manager fills review
+/performance/summary	Final scorecard view/download
+
+🟥 16. ESS – Employee Self-Service
+Page Name	Purpose
+/ess/profile	View/edit basic info
+/ess/payslips	Download monthly payslips
+/ess/leave	Apply for leave
+/ess/requests	Raise service requests
+/ess/notifications	Company-wide updates/alerts
+
+🟦 17. Exit & F&F Management
+Page Name	Purpose
+/exit/resignation	Employee submits resignation
+/exit/clearance	Department-wise clearance checklist
+/exit/interview	Capture exit feedback
+/exit/settlement	Generate F&F computation
+
+⚙️ 18. Admin & Settings
+Page Name	Purpose
+/admin/users	Manage all users & assign roles
+/admin/roles	Role-Based Access Control UI
+/admin/settings	Global HRMS configuration
+/admin/audit-log	View history of system actions
+
+1. Employee Information Management
+Maintain complete personal, professional, and contact details of employees with document uploads.
+
+
+2. Organizational Structure Management
+Define departments, designations, reporting managers, and office locations.
+
+
+3. Attendance Management System
+Track daily attendance using biometric/manual input, with late/absent marking.
+
+
+4. Shift & Roster Management
+Define shifts, assign employees, manage weekly/monthly rosters and shift rotations.
+
+
+5. Leave Management System
+Apply, approve, reject, and track various types of leaves with balance and policies.
+
+
+6. Holiday Calendar Management
+Maintain region/branch-wise holiday calendars and auto-sync with leave/attendance.
+
+
+7. Payroll Management System
+Calculate salaries with earnings, deductions, TDS, PF, ESI, etc., and generate payslips.
+
+
+8. Reimbursement Management
+Raise claims for travel, food, phone bills, etc., with approval and reimbursement status tracking.
+
+
+9. Loan & Advance Management
+Issue staff loans or salary advances with EMI tracking and deduction management.
+
+
+10. Recruitment Management
+Post jobs, manage applications, schedule interviews, and track selection status.
+
+
+11. Onboarding & Document Collection
+Digitally onboard new hires, collect documents, issue joining letters and assign welcome tasks.
+
+
+12. Training & Skill Development
+Assign, track, and evaluate training programs with skill matrix updates.
+
+
+13. Performance Appraisal Management
+Conduct KRA/KPI-based appraisals, assign reviewers, and manage scoring and feedback.
+
+
+14. Employee Self-Service (ESS) Portal
+Enable employees to view profile, payslips, apply leaves, raise requests, and track status.
+
+
+15. Exit & Final Settlement Management
+Manage resignations, clearance workflows, exit interviews, and F&F settlement processing.
+
+-- =============================================
+-- HRMS Database Schema Creation Script
+-- Microsoft SQL Server
+-- =============================================
+
+-- Check if database exists and drop it (Optional: for clean slate)
+-- IF DB_ID('HRMS_Enterprise') IS NOT NULL
+-- BEGIN
+--     ALTER DATABASE HRMS_Enterprise SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+--     DROP DATABASE HRMS_Enterprise;
+-- END
+-- GO
+
+-- Create Database
+CREATE DATABASE HRMS_Enterprise;
+GO
+USE HRMS_Enterprise;
+GO
+
+-- =============================================
+-- CREATE SCHEMAS
+-- =============================================
+-- Core HR Schema
+CREATE SCHEMA HR;
+GO
+-- Payroll Schema
+CREATE SCHEMA Payroll;
+GO
+-- Attendance Schema
+CREATE SCHEMA Attendance;
+GO
+-- Recruitment Schema
+CREATE SCHEMA Recruitment;
+GO
+-- Training Schema
+CREATE SCHEMA Training;
+GO
+-- System Schema for lookups and configurations
+CREATE SCHEMA System;
+GO
+
+-- =============================================
+-- SYSTEM TABLES (Configuration & Lookups)
+-- =============================================
+-- Countries
+CREATE TABLE System.Countries (
+    CountryID INT IDENTITY(1,1) PRIMARY KEY,
+    CountryCode VARCHAR(5) NOT NULL UNIQUE,
+    CountryName NVARCHAR(100) NOT NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- States/Provinces
+CREATE TABLE System.States (
+    StateID INT IDENTITY(1,1) PRIMARY KEY,
+    CountryID INT FOREIGN KEY REFERENCES System.Countries(CountryID),
+    StateCode VARCHAR(10) NOT NULL,
+    StateName NVARCHAR(100) NOT NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Cities
+CREATE TABLE System.Cities (
+    CityID INT IDENTITY(1,1) PRIMARY KEY,
+    StateID INT FOREIGN KEY REFERENCES System.States(StateID),
+    CityCode VARCHAR(10),
+    CityName NVARCHAR(100) NOT NULL,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Document Types
+CREATE TABLE System.DocumentTypes (
+    DocumentTypeID INT IDENTITY(1,1) PRIMARY KEY,
+    DocumentTypeName NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- HR CORE TABLES
+-- =============================================
+-- Company/Organization
+CREATE TABLE HR.Companies (
+    CompanyID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyName NVARCHAR(200) NOT NULL,
+    CompanyCode VARCHAR(20) NOT NULL UNIQUE,
+    Address NVARCHAR(500),
+    CityID INT FOREIGN KEY REFERENCES System.Cities(CityID),
+    Phone VARCHAR(20),
+    Email VARCHAR(100),
+    Website VARCHAR(200),
+    TaxID VARCHAR(50),
+    PAN VARCHAR(20),
+    GST VARCHAR(20),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Branches/Locations
+CREATE TABLE HR.Branches (
+    BranchID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    BranchName NVARCHAR(100) NOT NULL,
+    BranchCode VARCHAR(20) NOT NULL,
+    Address NVARCHAR(500),
+    CityID INT FOREIGN KEY REFERENCES System.Cities(CityID),
+    Phone VARCHAR(20),
+    Email VARCHAR(100),
+    IsHeadOffice BIT DEFAULT 0,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Departments
+CREATE TABLE HR.Departments (
+    DepartmentID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    DepartmentName NVARCHAR(100) NOT NULL,
+    DepartmentCode VARCHAR(20) NOT NULL,
+    Description NVARCHAR(255),
+    HODEmployeeID INT, -- Will be linked to Employees table
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Designations
+CREATE TABLE HR.Designations (
+    DesignationID INT IDENTITY(1,1) PRIMARY KEY,
+    DepartmentID INT FOREIGN KEY REFERENCES HR.Departments(DepartmentID),
+    DesignationName NVARCHAR(100) NOT NULL,
+    DesignationCode VARCHAR(20) NOT NULL,
+    Level INT, -- Hierarchy level
+    Description NVARCHAR(255),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Employees (Main Table)
+-- Note: HODEmployeeID FK will be added after Employees table is fully defined
+CREATE TABLE HR.Employees (
+    EmployeeID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    BranchID INT FOREIGN KEY REFERENCES HR.Branches(BranchID),
+    DepartmentID INT FOREIGN KEY REFERENCES HR.Departments(DepartmentID),
+    DesignationID INT FOREIGN KEY REFERENCES HR.Designations(DesignationID),
+    -- Personal Information
+    EmployeeCode VARCHAR(20) NOT NULL UNIQUE,
+    FirstName NVARCHAR(50) NOT NULL,
+    MiddleName NVARCHAR(50),
+    LastName NVARCHAR(50) NOT NULL,
+    FullName AS (FirstName + ' ' + ISNULL(MiddleName + ' ', '') + LastName),
+    Gender CHAR(1) CHECK (Gender IN ('M', 'F', 'O')),
+    DateOfBirth DATE,
+    MaritalStatus VARCHAR(20),
+    BloodGroup VARCHAR(10),
+    -- Contact Information
+    PersonalEmail VARCHAR(100),
+    CompanyEmail VARCHAR(100),
+    PersonalPhone VARCHAR(20),
+    CompanyPhone VARCHAR(20),
+    EmergencyContact VARCHAR(20),
+    EmergencyContactName NVARCHAR(100),
+    -- Address
+    PermanentAddress NVARCHAR(500),
+    CurrentAddress NVARCHAR(500),
+    CityID INT FOREIGN KEY REFERENCES System.Cities(CityID),
+    PinCode VARCHAR(20),
+    -- Employment Details
+    DateOfJoining DATE NOT NULL,
+    DateOfConfirmation DATE,
+    ProbationPeriod INT, -- in months
+    EmploymentType VARCHAR(20) CHECK (EmploymentType IN ('Permanent', 'Contract', 'Internship', 'Consultant')),
+    -- Reporting
+    ReportingManagerID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID), -- Self-referencing FK
+    -- Status
+    IsActive BIT DEFAULT 1,
+    TerminationDate DATE,
+    TerminationReason NVARCHAR(255),
+    -- Profile Image
+    ProfileImagePath VARCHAR(500),
+    -- System Fields
+    CreatedDate DATETIME2 DEFAULT GETDATE(),
+    CreatedBy INT,
+    ModifiedDate DATETIME2 DEFAULT GETDATE(),
+    ModifiedBy INT
+);
+GO
+
+-- Add foreign key constraint for Department HOD (references Employees)
+ALTER TABLE HR.Departments
+ADD CONSTRAINT FK_Department_HOD FOREIGN KEY (HODEmployeeID) REFERENCES HR.Employees(EmployeeID);
+GO
+
+-- Add Role column to Employees table
+ALTER TABLE HR.Employees
+ADD Role VARCHAR(20) NOT NULL DEFAULT 'employee' CHECK (Role IN ('admin', 'hr', 'employee'));
+GO
+
+-- Employee Documents
+CREATE TABLE HR.EmployeeDocuments (
+    DocumentID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    DocumentTypeID INT FOREIGN KEY REFERENCES System.DocumentTypes(DocumentTypeID),
+    DocumentName NVARCHAR(255) NOT NULL,
+    DocumentPath VARCHAR(500) NOT NULL,
+    DocumentNumber VARCHAR(100),
+    IssueDate DATE,
+    ExpiryDate DATE,
+    IsVerified BIT DEFAULT 0,
+    VerifiedBy INT,
+    VerifiedDate DATETIME2,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- ATTENDANCE MANAGEMENT
+-- =============================================
+-- Shifts
+CREATE TABLE Attendance.Shifts (
+    ShiftID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    ShiftName NVARCHAR(100) NOT NULL,
+    ShiftCode VARCHAR(20) NOT NULL,
+    StartTime TIME NOT NULL,
+    EndTime TIME NOT NULL,
+    BreakDuration INT, -- in minutes
+    LateAllowance INT, -- in minutes
+    EarlyGoingAllowance INT, -- in minutes
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Employee Shift Assignment
+CREATE TABLE Attendance.EmployeeShifts (
+    EmployeeShiftID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    ShiftID INT FOREIGN KEY REFERENCES Attendance.Shifts(ShiftID),
+    EffectiveDate DATE NOT NULL,
+    EndDate DATE,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- GeoFences (Single Definition)
+CREATE TABLE Attendance.GeoFences (
+    GeoFenceID INT IDENTITY(1,1) PRIMARY KEY,
+    BranchID INT FOREIGN KEY REFERENCES HR.Branches(BranchID),
+    GeoFenceName NVARCHAR(100) NOT NULL,
+    Latitude DECIMAL(10,8) NOT NULL,
+    Longitude DECIMAL(11,8) NOT NULL,
+    RadiusMeters INT NOT NULL, -- Radius in meters
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Daily Attendance
+-- Note: Geo-fencing columns are included directly in the table definition now
+CREATE TABLE Attendance.DailyAttendance (
+    AttendanceID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    AttendanceDate DATE NOT NULL,
+    ShiftID INT FOREIGN KEY REFERENCES Attendance.Shifts(ShiftID),
+    InTime DATETIME2,
+    OutTime DATETIME2,
+    -- Geo-fencing columns included directly
+    InLatitude DECIMAL(10,8),
+    InLongitude DECIMAL(11,8),
+    OutLatitude DECIMAL(10,8),
+    OutLongitude DECIMAL(11,8),
+    IsInGeoFence BIT DEFAULT 0, -- Indicates if attendance was within geofence
+    TotalHours DECIMAL(4,2),
+    BreakTime DECIMAL(4,2),
+    WorkingHours DECIMAL(4,2),
+    OvertimeHours DECIMAL(4,2),
+    Status VARCHAR(20) CHECK (Status IN ('Present', 'Absent', 'Late', 'Half Day', 'Holiday', 'Leave')),
+    IsLate BIT DEFAULT 0,
+    LateMinutes INT,
+    IsEarlyGoing BIT DEFAULT 0,
+    EarlyGoingMinutes INT,
+    Remarks NVARCHAR(255),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- LEAVE MANAGEMENT
+-- =============================================
+-- Leave Types
+CREATE TABLE HR.LeaveTypes (
+    LeaveTypeID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    LeaveTypeName NVARCHAR(100) NOT NULL,
+    LeaveTypeCode VARCHAR(20) NOT NULL,
+    MaxDaysPerYear INT,
+    MaxConsecutiveDays INT,
+    CarryForward BIT DEFAULT 0,
+    MaxCarryForwardDays INT,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Employee Leave Balance
+CREATE TABLE HR.EmployeeLeaveBalance (
+    BalanceID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    LeaveTypeID INT FOREIGN KEY REFERENCES HR.LeaveTypes(LeaveTypeID),
+    Year INT NOT NULL,
+    TotalDays DECIMAL(5,2) NOT NULL,
+    UsedDays DECIMAL(5,2) DEFAULT 0,
+    PendingDays DECIMAL(5,2) DEFAULT 0,
+    BalanceDays AS (TotalDays - UsedDays - PendingDays),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Leave Applications
+CREATE TABLE HR.LeaveApplications (
+    ApplicationID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    LeaveTypeID INT FOREIGN KEY REFERENCES HR.LeaveTypes(LeaveTypeID),
+    ApplicationDate DATE NOT NULL,
+    FromDate DATE NOT NULL,
+    ToDate DATE NOT NULL,
+    TotalDays DECIMAL(5,2) NOT NULL,
+    Reason NVARCHAR(500),
+    Status VARCHAR(20) CHECK (Status IN ('Pending', 'Approved', 'Rejected', 'Cancelled')) DEFAULT 'Pending',
+    ApprovedBy INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    ApprovedDate DATETIME2,
+    ApprovalRemarks NVARCHAR(255),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Holidays
+CREATE TABLE HR.Holidays (
+    HolidayID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    BranchID INT FOREIGN KEY REFERENCES HR.Branches(BranchID),
+    HolidayName NVARCHAR(100) NOT NULL,
+    HolidayDate DATE NOT NULL,
+    HolidayType VARCHAR(20) CHECK (HolidayType IN ('National', 'Regional', 'Optional')),
+    Description NVARCHAR(255),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- PAYROLL MANAGEMENT
+-- =============================================
+-- Salary Components
+CREATE TABLE Payroll.SalaryComponents (
+    ComponentID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    ComponentName NVARCHAR(100) NOT NULL,
+    ComponentCode VARCHAR(20) NOT NULL,
+    ComponentType VARCHAR(20) CHECK (ComponentType IN ('Earning', 'Deduction', 'Contribution')),
+    CalculationType VARCHAR(20) CHECK (CalculationType IN ('Fixed', 'Percentage', 'Formula')),
+    IsStatutory BIT DEFAULT 0,
+    IsTaxable BIT DEFAULT 1,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Employee Salary Structure
+CREATE TABLE Payroll.EmployeeSalaryStructure (
+    SalaryStructureID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    ComponentID INT FOREIGN KEY REFERENCES Payroll.SalaryComponents(ComponentID),
+    Amount DECIMAL(10,2),
+    Percentage DECIMAL(5,2),
+    EffectiveDate DATE NOT NULL,
+    EndDate DATE,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Payroll Processing
+CREATE TABLE Payroll.PayrollProcessing (
+    PayrollID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    PayPeriodMonth INT NOT NULL,
+    PayPeriodYear INT NOT NULL,
+    BasicSalary DECIMAL(10,2),
+    GrossSalary DECIMAL(10,2),
+    TotalDeductions DECIMAL(10,2),
+    NetSalary DECIMAL(10,2),
+    PF DECIMAL(10,2),
+    ESI DECIMAL(10,2),
+    TDS DECIMAL(10,2),
+    WorkingDays INT,
+    PresentDays INT,
+    LeaveDays INT,
+    Status VARCHAR(20) CHECK (Status IN ('Draft', 'Processed', 'Approved', 'Paid')) DEFAULT 'Draft',
+    ProcessedDate DATETIME2,
+    ApprovedBy INT,
+    ApprovedDate DATETIME2,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- RECRUITMENT MANAGEMENT
+-- =============================================
+-- Job Positions
+CREATE TABLE Recruitment.JobPositions (
+    JobPositionID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    DepartmentID INT FOREIGN KEY REFERENCES HR.Departments(DepartmentID),
+    DesignationID INT FOREIGN KEY REFERENCES HR.Designations(DesignationID),
+    JobTitle NVARCHAR(200) NOT NULL,
+    JobDescription NVARCHAR(MAX),
+    Requirements NVARCHAR(MAX),
+    ExperienceRequired VARCHAR(50),
+    SalaryRange NVARCHAR(100),
+    Vacancies INT,
+    PostedDate DATE,
+    ApplicationDeadline DATE,
+    Status VARCHAR(20) CHECK (Status IN ('Active', 'Closed', 'On Hold')) DEFAULT 'Active',
+    PostedBy INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Job Applications
+CREATE TABLE Recruitment.JobApplications (
+    ApplicationID INT IDENTITY(1,1) PRIMARY KEY,
+    JobPositionID INT FOREIGN KEY REFERENCES Recruitment.JobPositions(JobPositionID),
+    ApplicantName NVARCHAR(200) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Phone VARCHAR(20),
+    CurrentSalary DECIMAL(10,2),
+    ExpectedSalary DECIMAL(10,2),
+    Experience DECIMAL(4,2),
+    ResumePath VARCHAR(500),
+    CoverLetter NVARCHAR(MAX),
+    Status VARCHAR(20) CHECK (Status IN ('Applied', 'Shortlisted', 'Interview', 'Selected', 'Rejected')) DEFAULT 'Applied',
+    AppliedDate DATETIME2 DEFAULT GETDATE(),
+    InterviewDate DATETIME2,
+    InterviewerID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    InterviewFeedback NVARCHAR(MAX),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- TRAINING MANAGEMENT
+-- =============================================
+-- Training Programs
+CREATE TABLE Training.TrainingPrograms (
+    TrainingProgramID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    ProgramName NVARCHAR(200) NOT NULL,
+    ProgramCode VARCHAR(20) NOT NULL,
+    Description NVARCHAR(MAX),
+    Duration INT, -- in hours
+    TrainingType VARCHAR(20) CHECK (TrainingType IN ('Internal', 'External', 'Online', 'Classroom')),
+    StartDate DATE,
+    EndDate DATE,
+    TrainerName NVARCHAR(100),
+    MaxParticipants INT,
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Employee Training
+CREATE TABLE Training.EmployeeTraining (
+    EmployeeTrainingID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    TrainingProgramID INT FOREIGN KEY REFERENCES Training.TrainingPrograms(TrainingProgramID),
+    EnrollmentDate DATE,
+    StartDate DATE,
+    CompletionDate DATE,
+    Status VARCHAR(20) CHECK (Status IN ('Enrolled', 'In Progress', 'Completed', 'Dropped')) DEFAULT 'Enrolled',
+    Score DECIMAL(5,2),
+    Feedback NVARCHAR(MAX),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- PERFORMANCE MANAGEMENT
+-- =============================================
+-- Performance Periods
+CREATE TABLE HR.PerformancePeriods (
+    PeriodID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    PeriodName NVARCHAR(100) NOT NULL,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    Status VARCHAR(20) CHECK (Status IN ('Active', 'Closed', 'Draft')) DEFAULT 'Draft',
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- KRA/KPI
+CREATE TABLE HR.KRA (
+    KRAID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    PeriodID INT FOREIGN KEY REFERENCES HR.PerformancePeriods(PeriodID),
+    KRATitle NVARCHAR(200) NOT NULL,
+    Description NVARCHAR(MAX),
+    Weightage DECIMAL(5,2),
+    TargetValue DECIMAL(10,2),
+    ActualValue DECIMAL(10,2),
+    Score DECIMAL(5,2),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Performance Appraisal
+CREATE TABLE HR.PerformanceAppraisal (
+    AppraisalID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    PeriodID INT FOREIGN KEY REFERENCES HR.PerformancePeriods(PeriodID),
+    ReviewerID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    SelfRating DECIMAL(3,2),
+    ManagerRating DECIMAL(3,2),
+    FinalRating DECIMAL(3,2),
+    Comments NVARCHAR(MAX),
+    ManagerComments NVARCHAR(MAX),
+    Status VARCHAR(20) CHECK (Status IN ('Draft', 'Submitted', 'Under Review', 'Completed')) DEFAULT 'Draft',
+    SubmittedDate DATETIME2,
+    CompletedDate DATETIME2,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- EXPENSE MANAGEMENT
+-- =============================================
+-- Expense Categories
+CREATE TABLE HR.ExpenseCategories (
+    CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    CategoryName NVARCHAR(100) NOT NULL,
+    CategoryCode VARCHAR(20) NOT NULL,
+    Description NVARCHAR(255),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Expense Claims
+CREATE TABLE HR.ExpenseClaims (
+    ClaimID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    CategoryID INT FOREIGN KEY REFERENCES HR.ExpenseCategories(CategoryID),
+    ClaimDate DATE NOT NULL,
+    Amount DECIMAL(10,2) NOT NULL,
+    Description NVARCHAR(500),
+    ReceiptPath VARCHAR(500),
+    Status VARCHAR(20) CHECK (Status IN ('Pending', 'Approved', 'Rejected', 'Paid')) DEFAULT 'Pending',
+    ApprovedBy INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    ApprovedDate DATETIME2,
+    PaidDate DATETIME2,
+    Comments NVARCHAR(255),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- LOAN MANAGEMENT
+-- =============================================
+-- Loan Types
+CREATE TABLE HR.LoanTypes (
+    LoanTypeID INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyID INT FOREIGN KEY REFERENCES HR.Companies(CompanyID),
+    LoanTypeName NVARCHAR(100) NOT NULL,
+    MaxAmount DECIMAL(10,2),
+    InterestRate DECIMAL(5,2),
+    MaxTenure INT, -- in months
+    Description NVARCHAR(255),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- Employee Loans
+CREATE TABLE HR.EmployeeLoans (
+    LoanID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    LoanTypeID INT FOREIGN KEY REFERENCES HR.LoanTypes(LoanTypeID),
+    LoanAmount DECIMAL(10,2) NOT NULL,
+    InterestRate DECIMAL(5,2),
+    Tenure INT, -- in months
+    EMIAmount DECIMAL(10,2),
+    ApplicationDate DATE,
+    ApprovalDate DATE,
+    DisbursementDate DATE,
+    Status VARCHAR(20) CHECK (Status IN ('Applied', 'Approved', 'Rejected', 'Disbursed', 'Closed')) DEFAULT 'Applied',
+    ApprovedBy INT FOREIGN KEY REFERENCES HR.Employees(EmployeeID),
+    Purpose NVARCHAR(500),
+    CreatedDate DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- =============================================
+-- SYSTEM AUDIT TABLES
+-- =============================================
+-- Audit Log
+CREATE TABLE System.AuditLog (
+    AuditID INT IDENTITY(1,1) PRIMARY KEY,
+    TableName NVARCHAR(100) NOT NULL,
+    RecordID INT NOT NULL,
+    Action VARCHAR(10) CHECK (Action IN ('INSERT', 'UPDATE', 'DELETE')),
+    OldValues NVARCHAR(MAX), -- Can store JSON string
+    NewValues NVARCHAR(MAX), -- Can store JSON string
+    UserID NVARCHAR(128) NOT NULL, -- Changed to NVARCHAR as per script note
+    performedByEmail NVARCHAR(255), -- New column for email
+    Message NVARCHAR(MAX), -- New column for descriptive message
+    ActionDate DATETIME2 DEFAULT GETDATE(),
+    IPAddress VARCHAR(50),
+    UserAgent NVARCHAR(500)
+);
+GO
+
+-- Alter AuditLog UserID column (if needed, though defined above now)
+-- ALTER TABLE System.AuditLog
+--     ALTER COLUMN UserID NVARCHAR(128) NOT NULL;
+-- GO
+
+-- =============================================
+-- INDEXES FOR PERFORMANCE
+-- =============================================
+-- Employee related indexes
+CREATE INDEX IX_Employees_EmployeeCode ON HR.Employees(EmployeeCode);
+CREATE INDEX IX_Employees_CompanyID ON HR.Employees(CompanyID);
+CREATE INDEX IX_Employees_DepartmentID ON HR.Employees(DepartmentID);
+CREATE INDEX IX_Employees_IsActive ON HR.Employees(IsActive);
+-- Attendance related indexes
+CREATE INDEX IX_DailyAttendance_EmployeeID_Date ON Attendance.DailyAttendance(EmployeeID, AttendanceDate);
+CREATE INDEX IX_DailyAttendance_Date ON Attendance.DailyAttendance(AttendanceDate);
+-- Leave related indexes
+CREATE INDEX IX_LeaveApplications_EmployeeID ON HR.LeaveApplications(EmployeeID);
+CREATE INDEX IX_LeaveApplications_Status ON HR.LeaveApplications(Status);
+-- Payroll related indexes
+CREATE INDEX IX_PayrollProcessing_EmployeeID_Period ON Payroll.PayrollProcessing(EmployeeID, PayPeriodYear, PayPeriodMonth);
+GO
+
+-- =============================================
+-- VIEWS FOR COMMON QUERIES
+-- =============================================
+-- Employee Master View
+CREATE VIEW HR.vw_EmployeeMaster AS
+SELECT
+    e.EmployeeID,
+    e.EmployeeCode,
+    e.FirstName,
+    e.MiddleName,
+    e.LastName,
+    e.FullName,
+    e.Gender,
+    e.DateOfBirth,
+    e.PersonalEmail,
+    e.CompanyEmail,
+    e.PersonalPhone,
+    e.DateOfJoining,
+    e.EmploymentType,
+    c.CompanyName,
+    b.BranchName,
+    d.DepartmentName,
+    des.DesignationName,
+    rm.FullName AS ReportingManager,
+    e.IsActive,
+    city.CityName,
+    state.StateName,
+    country.CountryName
+FROM HR.Employees e
+    LEFT JOIN HR.Companies c ON e.CompanyID = c.CompanyID
+    LEFT JOIN HR.Branches b ON e.BranchID = b.BranchID
+    LEFT JOIN HR.Departments d ON e.DepartmentID = d.DepartmentID
+    LEFT JOIN HR.Designations des ON e.DesignationID = des.DesignationID
+    LEFT JOIN HR.Employees rm ON e.ReportingManagerID = rm.EmployeeID
+    LEFT JOIN System.Cities city ON e.CityID = city.CityID
+    LEFT JOIN System.States state ON city.StateID = state.StateID
+    LEFT JOIN System.Countries country ON state.CountryID = country.CountryID;
+GO
+
+-- Current Month Attendance View
+CREATE VIEW Attendance.vw_CurrentMonthAttendance AS
+SELECT
+    e.EmployeeID,
+    e.EmployeeCode,
+    e.FullName,
+    d.DepartmentName,
+    COUNT(da.AttendanceID) as TotalDays,
+    SUM(CASE WHEN da.Status = 'Present' THEN 1 ELSE 0 END) as PresentDays,
+    SUM(CASE WHEN da.Status = 'Absent' THEN 1 ELSE 0 END) as AbsentDays,
+    SUM(CASE WHEN da.Status = 'Late' THEN 1 ELSE 0 END) as LateDays,
+    SUM(CASE WHEN da.Status = 'Leave' THEN 1 ELSE 0 END) as LeaveDays,
+    SUM(CASE WHEN da.Status = 'Holiday' THEN 1 ELSE 0 END) as HolidayDays,
+    SUM(da.WorkingHours) as TotalWorkingHours,
+    SUM(da.OvertimeHours) as TotalOvertimeHours
+FROM HR.Employees e
+    LEFT JOIN Attendance.DailyAttendance da ON e.EmployeeID = da.EmployeeID
+        AND MONTH(da.AttendanceDate) = MONTH(GETDATE())
+        AND YEAR(da.AttendanceDate) = YEAR(GETDATE())
+    LEFT JOIN HR.Departments d ON e.DepartmentID = d.DepartmentID
+WHERE e.IsActive = 1
+GROUP BY e.EmployeeID, e.EmployeeCode, e.FullName, d.DepartmentName;
+GO
+
+-- Employee Leave Balance View
+CREATE VIEW HR.vw_EmployeeLeaveBalance AS
+SELECT
+    e.EmployeeID,
+    e.EmployeeCode,
+    e.FullName,
+    lt.LeaveTypeName,
+    elb.Year,
+    elb.TotalDays,
+    elb.UsedDays,
+    elb.PendingDays,
+    elb.BalanceDays,
+    d.DepartmentName
+FROM HR.Employees e
+    JOIN HR.EmployeeLeaveBalance elb ON e.EmployeeID = elb.EmployeeID
+    JOIN HR.LeaveTypes lt ON elb.LeaveTypeID = lt.LeaveTypeID
+    JOIN HR.Departments d ON e.DepartmentID = d.DepartmentID
+WHERE e.IsActive = 1 AND elb.Year = YEAR(GETDATE());
+GO
+
+-- Pending Leave Approvals View
+CREATE VIEW HR.vw_PendingLeaveApprovals AS
+SELECT
+    la.ApplicationID,
+    e.EmployeeCode,
+    e.FullName as EmployeeName,
+    lt.LeaveTypeName,
+    la.ApplicationDate,
+    la.FromDate,
+    la.ToDate,
+    la.TotalDays,
+    la.Reason,
+    la.Status,
+    rm.FullName as ReportingManager,
+    d.DepartmentName
+FROM HR.LeaveApplications la
+    JOIN HR.Employees e ON la.EmployeeID = e.EmployeeID
+    JOIN HR.LeaveTypes lt ON la.LeaveTypeID = lt.LeaveTypeID
+    LEFT JOIN HR.Employees rm ON e.ReportingManagerID = rm.EmployeeID
+    JOIN HR.Departments d ON e.DepartmentID = d.DepartmentID
+WHERE la.Status = 'Pending';
+GO
+
+-- Current Month Payroll View
+CREATE VIEW Payroll.vw_CurrentMonthPayroll AS
+SELECT
+    pp.PayrollID,
+    e.EmployeeID,
+    e.EmployeeCode,
+    e.FullName,
+    d.DepartmentName,
+    des.DesignationName,
+    pp.PayPeriodMonth,
+    pp.PayPeriodYear,
+    pp.BasicSalary,
+    pp.GrossSalary,
+    pp.TotalDeductions,
+    pp.NetSalary,
+    pp.PF,
+    pp.ESI,
+    pp.TDS,
+    pp.WorkingDays,
+    pp.PresentDays,
+    pp.LeaveDays,
+    pp.Status
+FROM Payroll.PayrollProcessing pp
+    JOIN HR.Employees e ON pp.EmployeeID = e.EmployeeID
+    JOIN HR.Departments d ON e.DepartmentID = d.DepartmentID
+    JOIN HR.Designations des ON e.DesignationID = des.DesignationID
+WHERE pp.PayPeriodMonth = MONTH(GETDATE())
+    AND pp.PayPeriodYear = YEAR(GETDATE());
+GO
+
+-- Active Job Openings View
+CREATE VIEW Recruitment.vw_ActiveJobOpenings AS
+SELECT
+    jp.JobPositionID,
+    jp.JobTitle,
+    d.DepartmentName,
+    des.DesignationName,
+    jp.Vacancies,
+    jp.ExperienceRequired,
+    jp.SalaryRange,
+    jp.PostedDate,
+    jp.ApplicationDeadline,
+    COUNT(ja.ApplicationID) as TotalApplications,
+    SUM(CASE WHEN ja.Status = 'Applied' THEN 1 ELSE 0 END) as NewApplications,
+    SUM(CASE WHEN ja.Status = 'Shortlisted' THEN 1 ELSE 0 END) as ShortlistedApplications,
+    SUM(CASE WHEN ja.Status = 'Selected' THEN 1 ELSE 0 END) as SelectedApplications
+FROM Recruitment.JobPositions jp
+    JOIN HR.Departments d ON jp.DepartmentID = d.DepartmentID
+    JOIN HR.Designations des ON jp.DesignationID = des.DesignationID
+    LEFT JOIN Recruitment.JobApplications ja ON jp.JobPositionID = ja.JobPositionID
+WHERE jp.Status = 'Active'
+GROUP BY jp.JobPositionID, jp.JobTitle, d.DepartmentName, des.DesignationName,
+         jp.Vacancies, jp.ExperienceRequired, jp.SalaryRange, jp.PostedDate, jp.ApplicationDeadline;
+GO
+
+-- =============================================
+-- STORED PROCEDURES
+-- =============================================
+-- Procedure to calculate and update leave balance
+CREATE PROCEDURE HR.sp_UpdateLeaveBalance
+    @EmployeeID INT,
+    @Year INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @LeaveTypeID INT;
+    DECLARE @MaxDays INT;
+    DECLARE @UsedDays DECIMAL(5,2);
+    DECLARE @PendingDays DECIMAL(5,2);
+    -- Cursor to loop through all active leave types
+    DECLARE leave_cursor CURSOR FOR
+    SELECT lt.LeaveTypeID, lt.MaxDaysPerYear
+    FROM HR.LeaveTypes lt
+    WHERE lt.IsActive = 1;
+    OPEN leave_cursor;
+    FETCH NEXT FROM leave_cursor INTO @LeaveTypeID, @MaxDays;
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Calculate used days
+        SELECT @UsedDays = ISNULL(SUM(TotalDays), 0)
+        FROM HR.LeaveApplications
+        WHERE EmployeeID = @EmployeeID
+            AND LeaveTypeID = @LeaveTypeID
+            AND Status = 'Approved'
+            AND YEAR(FromDate) = @Year;
+        -- Calculate pending days
+        SELECT @PendingDays = ISNULL(SUM(TotalDays), 0)
+        FROM HR.LeaveApplications
+        WHERE EmployeeID = @EmployeeID
+            AND LeaveTypeID = @LeaveTypeID
+            AND Status = 'Pending'
+            AND YEAR(FromDate) = @Year;
+        -- Insert or update leave balance
+        IF EXISTS (SELECT 1 FROM HR.EmployeeLeaveBalance
+                  WHERE EmployeeID = @EmployeeID
+                    AND LeaveTypeID = @LeaveTypeID
+                    AND Year = @Year)
+        BEGIN
+            UPDATE HR.EmployeeLeaveBalance
+            SET TotalDays = @MaxDays,
+                UsedDays = @UsedDays,
+                PendingDays = @PendingDays
+            WHERE EmployeeID = @EmployeeID
+                AND LeaveTypeID = @LeaveTypeID
+                AND Year = @Year;
+        END
+        ELSE
+        BEGIN
+            INSERT INTO HR.EmployeeLeaveBalance (EmployeeID, LeaveTypeID, Year, TotalDays, UsedDays, PendingDays)
+            VALUES (@EmployeeID, @LeaveTypeID, @Year, @MaxDays, @UsedDays, @PendingDays);
+        END
+        FETCH NEXT FROM leave_cursor INTO @LeaveTypeID, @MaxDays;
+    END
+    CLOSE leave_cursor;
+    DEALLOCATE leave_cursor;
+END;
+GO
+
+-- Procedure to process monthly attendance
+CREATE PROCEDURE Attendance.sp_ProcessMonthlyAttendance
+    @EmployeeID INT,
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @WorkingDays INT;
+    DECLARE @PresentDays INT;
+    DECLARE @AbsentDays INT;
+    DECLARE @LeaveDays INT;
+    DECLARE @HolidayDays INT;
+    DECLARE @TotalWorkingHours DECIMAL(5,2);
+    DECLARE @TotalOvertimeHours DECIMAL(5,2);
+    -- Calculate attendance statistics
+    SELECT
+        @WorkingDays = COUNT(*),
+        @PresentDays = SUM(CASE WHEN Status IN ('Present', 'Late') THEN 1 ELSE 0 END),
+        @AbsentDays = SUM(CASE WHEN Status = 'Absent' THEN 1 ELSE 0 END),
+        @LeaveDays = SUM(CASE WHEN Status = 'Leave' THEN 1 ELSE 0 END),
+        @HolidayDays = SUM(CASE WHEN Status = 'Holiday' THEN 1 ELSE 0 END),
+        @TotalWorkingHours = SUM(ISNULL(WorkingHours, 0)),
+        @TotalOvertimeHours = SUM(ISNULL(OvertimeHours, 0))
+    FROM Attendance.DailyAttendance
+    WHERE EmployeeID = @EmployeeID
+        AND MONTH(AttendanceDate) = @Month
+        AND YEAR(AttendanceDate) = @Year;
+    -- Return the calculated values
+    SELECT
+        @EmployeeID as EmployeeID,
+        @Month as Month,
+        @Year as Year,
+        @WorkingDays as WorkingDays,
+        @PresentDays as PresentDays,
+        @AbsentDays as AbsentDays,
+        @LeaveDays as LeaveDays,
+        @HolidayDays as HolidayDays,
+        @TotalWorkingHours as TotalWorkingHours,
+        @TotalOvertimeHours as TotalOvertimeHours;
+END;
+GO
+
+-- Procedure for basic payroll calculation
+CREATE PROCEDURE Payroll.sp_CalculatePayroll
+    @EmployeeID INT,
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @BasicSalary DECIMAL(10,2) = 0;
+    DECLARE @GrossSalary DECIMAL(10,2) = 0;
+    DECLARE @TotalDeductions DECIMAL(10,2) = 0;
+    DECLARE @NetSalary DECIMAL(10,2) = 0;
+    DECLARE @PF DECIMAL(10,2) = 0;
+    DECLARE @ESI DECIMAL(10,2) = 0;
+    DECLARE @TDS DECIMAL(10,2) = 0;
+    DECLARE @WorkingDays INT = 0;
+    DECLARE @PresentDays INT = 0;
+    DECLARE @LeaveDays INT = 0;
+
+    -- Get attendance data (Note: This call doesn't assign variables directly in this procedure logic as written)
+    -- You might need to adjust how attendance data is used here.
+    -- EXEC Attendance.sp_ProcessMonthlyAttendance @EmployeeID, @Month, @Year;
+
+    -- Calculate basic salary from salary structure
+    SELECT @BasicSalary = SUM(CASE WHEN sc.ComponentCode = 'BASIC' THEN ess.Amount ELSE 0 END),
+           @GrossSalary = SUM(CASE WHEN sc.ComponentType = 'Earning' THEN ess.Amount ELSE 0 END)
+    FROM Payroll.EmployeeSalaryStructure ess
+        JOIN Payroll.SalaryComponents sc ON ess.ComponentID = sc.ComponentID
+    WHERE ess.EmployeeID = @EmployeeID
+        AND ess.IsActive = 1
+        AND (@Month BETWEEN MONTH(ess.EffectiveDate) AND ISNULL(MONTH(ess.EndDate), 12))
+        AND (@Year BETWEEN YEAR(ess.EffectiveDate) AND ISNULL(YEAR(ess.EndDate), @Year));
+
+    -- Calculate statutory deductions (Basic examples)
+    SET @PF = ISNULL(@BasicSalary, 0) * 0.12; -- 12% PF
+    SET @ESI = CASE WHEN ISNULL(@GrossSalary, 0) <= 25000 THEN ISNULL(@GrossSalary, 0) * 0.0075 ELSE 0 END; -- 0.75% ESI
+    SET @TDS = CASE WHEN ISNULL(@GrossSalary, 0) > 50000 THEN ISNULL(@GrossSalary, 0) * 0.1 ELSE 0 END; -- Basic TDS calculation
+
+    SET @TotalDeductions = @PF + @ESI + @TDS;
+    SET @NetSalary = ISNULL(@GrossSalary, 0) - ISNULL(@TotalDeductions, 0);
+
+    -- Placeholder for actual working days calculation (needs logic based on your requirements)
+    -- For now, assuming sp_ProcessMonthlyAttendance provides this or similar logic is needed
+    -- SET @WorkingDays = ...;
+    -- SET @PresentDays = ...;
+    -- SET @LeaveDays = ...;
+
+    -- Insert or update payroll record
+    IF EXISTS (SELECT 1 FROM Payroll.PayrollProcessing
+              WHERE EmployeeID = @EmployeeID
+                AND PayPeriodMonth = @Month
+                AND PayPeriodYear = @Year)
+    BEGIN
+        UPDATE Payroll.PayrollProcessing
+        SET BasicSalary = @BasicSalary,
+            GrossSalary = @GrossSalary,
+            TotalDeductions = @TotalDeductions,
+            NetSalary = @NetSalary,
+            PF = @PF,
+            ESI = @ESI,
+            TDS = @TDS,
+            -- WorkingDays = @WorkingDays, -- Update if calculated
+            -- PresentDays = @PresentDays, -- Update if calculated
+            -- LeaveDays = @LeaveDays,     -- Update if calculated
+            Status = 'Processed',
+            ProcessedDate = GETDATE()
+        WHERE EmployeeID = @EmployeeID
+            AND PayPeriodMonth = @Month
+            AND PayPeriodYear = @Year;
+    END
+    ELSE
+    BEGIN
+        INSERT INTO Payroll.PayrollProcessing (
+            EmployeeID, PayPeriodMonth, PayPeriodYear, BasicSalary, GrossSalary,
+            TotalDeductions, NetSalary, PF, ESI, TDS, -- WorkingDays, PresentDays, LeaveDays,
+            Status, ProcessedDate
+        )
+        VALUES (
+            @EmployeeID, @Month, @Year, @BasicSalary, @GrossSalary,
+            @TotalDeductions, @NetSalary, @PF, @ESI, @TDS, -- @WorkingDays, @PresentDays, @LeaveDays,
+            'Processed', GETDATE()
+        );
+    END
+END;
+GO
+
+-- =============================================
+-- FUNCTIONS
+-- =============================================
+-- Function to get employee's current age
+CREATE FUNCTION HR.fn_GetEmployeeAge(@EmployeeID INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Age INT;
+    SELECT @Age = DATEDIFF(YEAR, DateOfBirth, GETDATE()) -
+                  CASE WHEN MONTH(DateOfBirth) > MONTH(GETDATE())
+                       OR (MONTH(DateOfBirth) = MONTH(GETDATE()) AND DAY(DateOfBirth) > DAY(GETDATE()))
+                       THEN 1 ELSE 0 END
+    FROM HR.Employees
+    WHERE EmployeeID = @EmployeeID;
+    RETURN ISNULL(@Age, 0);
+END;
+GO
+
+-- Function to get employee's service years
+CREATE FUNCTION HR.fn_GetEmployeeServiceYears(@EmployeeID INT)
+RETURNS DECIMAL(5,2)
+AS
+BEGIN
+    DECLARE @ServiceYears DECIMAL(5,2);
+    SELECT @ServiceYears = DATEDIFF(DAY, DateOfJoining, GETDATE()) / 365.25
+    FROM HR.Employees
+    WHERE EmployeeID = @EmployeeID;
+    RETURN ISNULL(@ServiceYears, 0);
+END;
+GO
+
+-- Function to check if date is holiday
+CREATE FUNCTION HR.fn_IsHoliday(@Date DATE, @CompanyID INT, @BranchID INT)
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @IsHoliday BIT = 0;
+    IF EXISTS (SELECT 1 FROM HR.Holidays
+               WHERE HolidayDate = @Date
+                 AND CompanyID = @CompanyID
+                 AND (BranchID = @BranchID OR BranchID IS NULL)
+                 AND IsActive = 1)
+    BEGIN
+        SET @IsHoliday = 1;
+    END
+    RETURN @IsHoliday;
+END;
+GO
+
+-- =============================================
+-- TRIGGERS
+-- =============================================
+-- Trigger to automatically update leave balance when leave is approved
+CREATE TRIGGER HR.tr_UpdateLeaveBalance
+ON HR.LeaveApplications
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    -- Check if Status column was updated
+    IF UPDATE(Status)
+    BEGIN
+        DECLARE @EmployeeID INT, @Year INT;
+        -- Get details from the updated row(s) where status is now 'Approved'
+        DECLARE leave_cursor CURSOR FOR
+        SELECT i.EmployeeID, YEAR(i.FromDate)
+        FROM inserted i
+        INNER JOIN deleted d ON i.ApplicationID = d.ApplicationID -- Join to compare old vs new
+        WHERE i.Status = 'Approved' AND d.Status <> 'Approved'; -- Only if status changed TO Approved
+
+        OPEN leave_cursor;
+        FETCH NEXT FROM leave_cursor INTO @EmployeeID, @Year;
+
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            -- Update leave balance for the specific employee and year
+            EXEC HR.sp_UpdateLeaveBalance @EmployeeID, @Year;
+
+            FETCH NEXT FROM leave_cursor INTO @EmployeeID, @Year;
+        END
+
+        CLOSE leave_cursor;
+        DEALLOCATE leave_cursor;
+    END
+END;
+GO
+
+-- Trigger for audit logging on HR.Employees (Single, Correct Version)
+-- Ensure this is the ONLY version of this trigger created
+CREATE TRIGGER HR.tr_AuditLog_Employees -- Defined in HR schema, targets HR.Employees
+ON HR.Employees
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    -- Critical line to prevent interference with clients like Sequelize
+    SET NOCOUNT ON;
+    DECLARE @Action VARCHAR(10);
+
+    -- Determine the type of action
+    IF EXISTS (SELECT * FROM inserted) AND EXISTS (SELECT * FROM deleted)
+        SET @Action = 'UPDATE';
+    ELSE IF EXISTS (SELECT * FROM inserted)
+        SET @Action = 'INSERT';
+    ELSE
+        SET @Action = 'DELETE';
+
+    -- Insert audit record
+    INSERT INTO System.AuditLog (TableName, RecordID, Action, OldValues, NewValues, UserID, ActionDate)
+    SELECT
+        'HR.Employees',
+        ISNULL(i.EmployeeID, d.EmployeeID),
+        @Action,
+        (SELECT * FROM deleted d2 WHERE d2.EmployeeID = ISNULL(i.EmployeeID, d.EmployeeID) FOR JSON AUTO),
+        (SELECT * FROM inserted i2 WHERE i2.EmployeeID = ISNULL(i.EmployeeID, d.EmployeeID) FOR JSON AUTO),
+        SYSTEM_USER, -- Or use CONTEXT_INFO()/ORIGINAL_LOGIN() if capturing specific app user is needed
+        GETDATE()
+    FROM inserted i
+    FULL OUTER JOIN deleted d ON i.EmployeeID = d.EmployeeID;
+END;
+GO
+
+-- =============================================
+-- SECURITY SETUP
+-- =============================================
+-- Create roles for different user types
+CREATE ROLE HR_Admin;
+CREATE ROLE HR_Manager;
+CREATE ROLE Employee;
+CREATE ROLE Payroll_Admin;
+CREATE ROLE Recruitment_Manager;
+GO
+
+-- Grant permissions to HR_Admin (full access)
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::HR TO HR_Admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Payroll TO HR_Admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Attendance TO HR_Admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Recruitment TO HR_Admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Training TO HR_Admin;
+GRANT SELECT ON SCHEMA::System TO HR_Admin;
+GO
+
+-- Grant permissions to HR_Manager (limited access)
+GRANT SELECT, INSERT, UPDATE ON SCHEMA::HR TO HR_Manager;
+GRANT SELECT ON SCHEMA::Payroll TO HR_Manager;
+GRANT SELECT, INSERT, UPDATE ON SCHEMA::Attendance TO HR_Manager;
+GRANT SELECT ON SCHEMA::System TO HR_Manager;
+GO
+
+-- Grant permissions to Employee (very limited access)
+GRANT SELECT ON HR.vw_EmployeeMaster TO Employee;
+GRANT SELECT ON HR.vw_EmployeeLeaveBalance TO Employee;
+GRANT SELECT, INSERT ON HR.LeaveApplications TO Employee;
+GRANT SELECT, INSERT ON HR.ExpenseClaims TO Employee;
+GO
+
+-- Grant permissions to Payroll_Admin
+GRANT SELECT, INSERT, UPDATE ON SCHEMA::Payroll TO Payroll_Admin;
+GRANT SELECT ON SCHEMA::HR TO Payroll_Admin;
+GRANT SELECT ON SCHEMA::Attendance TO Payroll_Admin;
+GO
+
+-- Grant permissions to Recruitment_Manager
+GRANT SELECT, INSERT, UPDATE ON SCHEMA::Recruitment TO Recruitment_Manager;
+GRANT SELECT ON SCHEMA::HR TO Recruitment_Manager;
+GO
+
+PRINT 'HRMS_Enterprise database schema created successfully.';
+GO

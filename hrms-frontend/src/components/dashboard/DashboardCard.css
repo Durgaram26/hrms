@@ -1,0 +1,129 @@
+/* DashboardCard.css */
+
+.card {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.scale-up {
+  animation: scaleUp 0.5s ease;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bg-gradient.bg-primary {
+  background: linear-gradient(45deg, #4e73df, #6f86d6) !important;
+}
+
+.bg-gradient.bg-success {
+  background: linear-gradient(45deg, #1cc88a, #36b9cc) !important;
+}
+
+.bg-gradient.bg-info {
+  background: linear-gradient(45deg, #36b9cc, #4e73df) !important;
+}
+
+.bg-gradient.bg-warning {
+  background: linear-gradient(45deg, #f6c23e, #f8d486) !important;
+}
+
+.bg-gradient.bg-danger {
+  background: linear-gradient(45deg, #e74a3b, #e95c4f) !important;
+}
+
+.bg-gradient.bg-secondary {
+  background: linear-gradient(45deg, #858796, #a2a4af) !important;
+}
+
+.bg-gradient.bg-dark {
+  background: linear-gradient(45deg, #5a5c69, #373840) !important;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Filled variant styles */
+.card.bg-primary.bg-opacity-10 {
+  background-color: rgba(78, 115, 223, 0.1) !important;
+}
+
+.card.bg-success.bg-opacity-10 {
+  background-color: rgba(28, 200, 138, 0.1) !important;
+}
+
+.card.bg-info.bg-opacity-10 {
+  background-color: rgba(54, 185, 204, 0.1) !important;
+}
+
+.card.bg-warning.bg-opacity-10 {
+  background-color: rgba(246, 194, 62, 0.1) !important;
+}
+
+.card.bg-danger.bg-opacity-10 {
+  background-color: rgba(231, 74, 59, 0.1) !important;
+}
+
+.card.bg-secondary.bg-opacity-10 {
+  background-color: rgba(133, 135, 150, 0.1) !important;
+}
+
+.card.bg-dark.bg-opacity-10 {
+  background-color: rgba(90, 92, 105, 0.1) !important;
+}
+
+/* Outlined variant styles */
+.card.border-primary {
+  border-color: #4e73df !important;
+}
+
+.card.border-success {
+  border-color: #1cc88a !important;
+}
+
+.card.border-info {
+  border-color: #36b9cc !important;
+}
+
+.card.border-warning {
+  border-color: #f6c23e !important;
+}
+
+.card.border-danger {
+  border-color: #e74a3b !important;
+}
+
+.card.border-secondary {
+  border-color: #858796 !important;
+}
+
+.card.border-dark {
+  border-color: #5a5c69 !important;
+}
+
+/* Badge positioning */
+.badge {
+  font-size: 0.7rem;
+  padding: 0.35em 0.65em;
+}
+
+/* Card footer styling */
+.card-footer {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}

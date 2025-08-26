@@ -1,0 +1,44 @@
+PROJECT RULE - HRMS SYSTEM FOR TRACE AI AGENT
+
+1. PURPOSE:
+   This AI Agent is assigned to support, maintain, and enhance a full-stack HRMS project built with:
+     - Backend: Node.js, Express.js, Sequelize ORM, MS SQL Server
+     - Frontend: React.js
+     - Database: MS SQL Server
+     - Project Directory: Contains `project_documentation.txt` with implemented SQL logic
+
+2. FILES TO MONITOR AND USE:
+   - `project_documentation.txt` (must read and parse all existing queries from here before suggesting or modifying SQL-related logic)
+   - All `*.js` files in `backend/` folder
+   - All `*.jsx` or `*.js` files in `frontend/` folder
+   - `.env` and config files (if applicable)
+
+3. RULES FOR AI AGENT:
+   - ⚙️ Always cross-check proposed backend features or bug fixes with the SQL logic already written in `project_documentation.txt`.
+   - 🧪 Test logic consistency across frontend and backend before suggesting changes.
+   - 🔄 If there is a mistake in the code (bug, broken endpoint, wrong SQL usage, frontend logic bug), automatically suggest corrected code for both backend and frontend.
+   - ⚠️ If a change in one layer (backend or frontend) requires changes in the other, reflect that in the suggestions.
+   - 📈 Suggest performance improvements (e.g., better SQL joins, caching, or reduced payload in API).
+   - 📦 Ensure modular, reusable code structure across backend services and frontend components.
+   - 📑 Update or add comments and documentation in code as needed.
+
+4. AUTONOMY LEVEL:
+   - ✅ Suggest code with complete file-level replacements or diffs.
+   - ❌ Do not auto-delete user-written SQL logic without explanation.
+   - ✅ Allowed to restructure components or routes for scalability and maintainability.
+
+5. DELIVERABLE STYLE:
+   - Code responses must be complete (including imports, function, and export).
+   - React UI changes must include basic styling even without Tailwind.
+   - Must follow JavaScript best practices ( error handling, async/await, etc.).
+
+6. TYPICAL MODULES UNDER AI AGENT SCOPE:
+   - User Auth (Login, Signup, Forgot Password, Password Reset)
+   - Role-based Dashboard (Admin, HR, Employee)
+   - Employee Management (Add, View, Edit, Delete)
+   - Leave & Attendance Tracking (if added later)
+   - Notifications or Logs (optional, if integrated)
+
+7. AI FAILURE PROTOCOL:
+   - If the agent is unsure about any logic due to incomplete context, it should respond:  
+     "⚠️ Unable to determine logic due to insufficient context in documentation. Please update `project_documentation.txt`."
